@@ -7,12 +7,10 @@ jobs:
       - checkout
       - setup_remote_docker
       - run: git clone https://github.com/openai/jukebox.git
-      - run: docker build --tag jb-image:$CIRCLE_SHA1 .
+      - run: docker build --tag btrude/jukebox-docker:latest .
       - run: |
           echo $DOCKER_PASS | docker login -u $DOCKER_USER --password-stdin
-          docker tag jb-image:$CIRCLE_SHA1 btrude/jukebox-docker:$CIRCLE_SHA1
           docker push btrude/jukebox-docker:latest
-          docker push btrude/jukebox-docker:$CIRCLE_SHA1
 
 
 workflows:
