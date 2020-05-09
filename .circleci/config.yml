@@ -1,0 +1,23 @@
+version: 2.1
+jobs:
+  build:
+    docker:
+      - image: circleci/buildpack-deps:stretch
+    steps:
+      - checkout
+      - setup_remote_docker
+      - run: docker build --tags btrude/jukebox-docker:latest
+      - run: git clone https://github.com/openai/jukebox.git
+      - run: |
+          docker login -u $DOCKER_USER -p $DOCKER_PASS
+          docker push btrude/jukebox-docker:latest
+
+
+workflows:
+  version: 2
+  default:
+    jobs:
+      - build:
+          filters:
+            branches:
+              only: master
