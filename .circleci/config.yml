@@ -9,9 +9,9 @@ jobs:
       - run: git clone https://github.com/openai/jukebox.git
       - run: docker build --tag jb-image:$CIRCLE_SHA1 .
       - run: |
-          docker login -u $DOCKER_USER -p $DOCKER_PASS
-          docker tag jb-image:$CIRCLE_SHA1 jukebox-docker:$CIRCLE_SHA1
-          docker push jukebox-docker:$CIRCLE_SHA1
+          echo $DOCKER_PASS | docker login -u $DOCKER_USER --password-stdin
+          docker tag jb-image:$CIRCLE_SHA1 btrude/jukebox-docker:$CIRCLE_SHA1
+          docker push btrude/jukebox-docker:$CIRCLE_SHA1
 
 
 workflows:
