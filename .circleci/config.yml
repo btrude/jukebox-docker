@@ -6,11 +6,12 @@ jobs:
     steps:
       - checkout
       - setup_remote_docker
-      - run: docker build --tags btrude/jukebox-docker:latest
+      - run: docker build --tags jb-image:$CIRCLE_SHA1
       - run: git clone https://github.com/openai/jukebox.git
       - run: |
           docker login -u $DOCKER_USER -p $DOCKER_PASS
-          docker push btrude/jukebox-docker:latest
+          docker tag jb-image:$CIRCLE_SHA1 jukebox-docker:$CIRCLE_SHA1
+          docker push jukebox-docker:$CIRCLE_SHA1
 
 
 workflows:
