@@ -6,7 +6,7 @@ jobs:
     steps:
       - checkout
       - setup_remote_docker
-      - run: docker build --tags jb-image:$CIRCLE_SHA1
+      - run: docker build --tag jb-image:$CIRCLE_SHA1
       - run: git clone https://github.com/openai/jukebox.git
       - run: |
           docker login -u $DOCKER_USER -p $DOCKER_PASS
