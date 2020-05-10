@@ -1,16 +1,40 @@
 version: 2.1
+
+defaults: &defaults
+  docker:
+    - image: circleci/buildpack-deps:stretch
+
+
 jobs:
   build:
-    docker:
-      - image: circleci/buildpack-deps:stretch
+    <<: *defaults
     steps:
       - checkout
       - setup_remote_docker
       - run: git clone https://github.com/openai/jukebox.git
-      - run: docker build --tag btrude/jukebox-docker:latest .
+      - run: docker build -t btrude/jukebox-docker:latest -f Dockerfile .
       - run: |
           echo $DOCKER_PASS | docker login -u $DOCKER_USER --password-stdin
           docker push btrude/jukebox-docker:latest
+      - run: docker build -t btrude/jukebox-docker:apex -f Dockerfile.apex .
+      - run: |
+          echo $DOCKER_PASS | docker login -u $DOCKER_USER --password-stdin
+          docker push btrude/jukebox-docker:apex
+
+  build_wip:
+    <<: *defaults
+    steps:
+      - checkout
+      - setup_remote_docker
+      - run: git clone https://github.com/openai/jukebox.git
+      - run: docker build -t btrude/jukebox-docker:$CIRCLE_SHA1 -f Dockerfile .
+      - run: |
+          echo $DOCKER_PASS | docker login -u $DOCKER_USER --password-stdin
+          docker push btrude/jukebox-docker:$CIRCLE_SHA1
+      - run: docker build -t btrude/jukebox-docker:apex-$CIRCLE_SHA1 -f Dockerfile.apex .
+      - run: |
+          echo $DOCKER_PASS | docker login -u $DOCKER_USER --password-stdin
+          docker push btrude/jukebox-docker:apex-$CIRCLE_SHA1
 
 
 workflows:
@@ -21,3 +45,7 @@ workflows:
           filters:
             branches:
               only: master
+      - build_wip:
+          filters:
+            branches:
+              ignore: master
