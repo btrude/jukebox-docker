@@ -1,7 +1,7 @@
 # combine python:3.7.7-stretch/buildpack-deps:stretch
 # with nvidia/cuda for jukebox dependencies
 
-FROM nvidia/cuda
+FROM nvidia/cuda:10.2-devel-ubuntu18.04
 
 # buildpack-deps:stretch
 RUN set -ex; \
@@ -50,9 +50,12 @@ RUN set -ex; \
 		zlib1g-dev \
         # additional deps for jukebox
         wget \
+		ffmpeg \
         libopenmpi-dev \
+		openmpi-bin \
         libsndfile1 \
-		\
+		libavdevice-dev \
+		libavfilter-dev \
 		$( \
 			if apt-cache show 'default-libmysqlclient-dev' 2>/dev/null | grep -q '^Version:'; then \
 				echo 'default-libmysqlclient-dev'; \
@@ -187,7 +190,7 @@ RUN set -ex; \
 RUN mkdir -p /opt/jukebox
 WORKDIR /opt/jukebox
 
-RUN pip install mpi4py==3.0.3 torch==1.4.0 torchvision==0.5.0
+RUN pip install mpi4py==3.0.3 torch==1.4.0 torchvision==0.5.0 av==8.0.1
 
 COPY ./jukebox/requirements.txt /opt/jukebox/
 RUN pip install -r requirements.txt
