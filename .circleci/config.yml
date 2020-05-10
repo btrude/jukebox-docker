@@ -21,6 +21,17 @@ jobs:
           echo $DOCKER_PASS | docker login -u $DOCKER_USER --password-stdin
           docker push btrude/jukebox-docker:apex
 
+  build_apex:
+    <<: *defaults
+    steps:
+      - checkout
+      - setup_remote_docker
+      - run: git clone https://github.com/openai/jukebox.git
+      - run: docker build -t btrude/jukebox-docker:apex -f Dockerfile.apex .
+      - run: |
+          echo $DOCKER_PASS | docker login -u $DOCKER_USER --password-stdin
+          docker push btrude/jukebox-docker:apex
+
   build_wip:
     <<: *defaults
     steps:
@@ -45,6 +56,9 @@ workflows:
           filters:
             branches:
               only: master
+      - build_apex:
+          requires:
+            - build
       - build_wip:
           filters:
             branches:
