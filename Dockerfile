@@ -197,8 +197,8 @@ COPY ./jukebox/requirements.txt /opt/jukebox/
 RUN pip install -r requirements.txt && rm requirements.txt
 
 COPY ./jukebox /opt/jukebox
-RUN rm -rf tensorboardX/ && rm -rf apex/
+RUN rm -rf apex/
 RUN pip install -e .
-RUN pip install tensorboard
+RUN pip install tensorboard ./tensorboardX
 
 EXPOSE 6006

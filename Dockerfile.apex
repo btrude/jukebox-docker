@@ -197,9 +197,9 @@ COPY ./jukebox/requirements.txt /opt/jukebox/
 RUN pip install -r requirements.txt && rm requirements.txt
 
 COPY ./jukebox /opt/jukebox
-RUN rm -rf tensorboardX/ && rm apex/setup.py
+RUN rm apex/setup.py
 RUN pip install -e .
-RUN pip install tensorboard
+RUN pip install tensorboard ./tensorboardX
 
 COPY ./setup.py /opt/jukebox/apex/
 RUN pip install -v --no-cache-dir --global-option="--cpp_ext" --global-option="--cuda_ext" ./apex
