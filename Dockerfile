@@ -48,14 +48,7 @@ RUN set -ex; \
 		unzip \
 		xz-utils \
 		zlib1g-dev \
-        # additional deps for jukebox
-        wget \
-		ffmpeg \
-        libopenmpi-dev \
-		openmpi-bin \
-        libsndfile1 \
-		libavdevice-dev \
-		libavfilter-dev \
+		wget \
 		$( \
 			if apt-cache show 'default-libmysqlclient-dev' 2>/dev/null | grep -q '^Version:'; then \
 				echo 'default-libmysqlclient-dev'; \
@@ -186,7 +179,15 @@ RUN set -ex; \
 		\) -exec rm -rf '{}' +; \
 	rm -f get-pip.py
 
-# begin jukebox setup
+# additional deps for jukebox
+RUN apt-get update && apt-get install -y \
+	ffmpeg \
+	libopenmpi-dev \
+	openmpi-bin \
+	libsndfile1 \
+	libavdevice-dev \
+	libavfilter-dev
+
 RUN mkdir -p /opt/jukebox
 WORKDIR /opt/jukebox
 
