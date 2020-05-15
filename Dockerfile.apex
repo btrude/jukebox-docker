@@ -186,7 +186,8 @@ RUN apt-get update && apt-get install -y \
 	openmpi-bin \
 	libsndfile1 \
 	libavdevice-dev \
-	libavfilter-dev
+	libavfilter-dev \
+	ssh
 
 RUN mkdir -p /opt/jukebox
 WORKDIR /opt/jukebox
