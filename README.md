@@ -1,4 +1,4 @@
-# How To Use these Images
+# How To Use These Images
 ### Hardware Requirements
 These images require an nvidia GPU. I have tested it with Maxwell, Pascal, Volta, and Turing architectures without issue, but be aware that you will need 11-24GB of VRAM depending on what specifically you are trying to do with the images. See the vast.ai section for a guide to using this image on vast's paid cloud service.
 
