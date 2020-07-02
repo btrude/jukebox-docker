@@ -18,20 +18,10 @@ Afterwards, create a vast instance allocating ~50gb of disk space (disk space is
 Click "Connect" and a modal will pop up with an ssh command, copy that command into your terminal and type "yes" when prompted and then cd /opt/jukebox/ as vast does not take you to the docker image workdir. You should now be connected to the vast instances inside an instance of tmux. tmux allows your processes to stay running even after you have disconnected from the instance which is potentially important depending on how long you intend to use it for. See https://tmuxcheatsheet.com/ for important tmux commands, or just do ctrl+b, d to detach from the session, then type exit to exit ssh when you are done. Follow the instructions in the cheatsheet to re-attach to the session if necessary.
 
 In order to pass your own dataset, prompt, or original code, or to recover any samples you made you will have to use `scp`. Take the ssh command provided to you by vast, e.g:
-`ssh -p 16090 root@ssh5.vast.ai -L 8080:localhost:8080`
+`ssh -p 16090 root@ssh5.vast.ai -L 8080:localhost:8080` and pass the relevant info to scp like `scp -P 16090 root@ssh5.vast.ai:/opt/jukebox/path/to/file.wav ~/path/on/my/local/mac`
 
-and pass the relevant info to scp like:
-`scp -P 16090 root@ssh5.vast.ai:/opt/jukebox/path/to/file.wav ~/path/on/my/local/mac`
+So if you wanted to transfer a file from the default example in this repo's readme to your desktop it would look like this `scp -P 16090 root@ssh5.vast.ai:/opt/jukebox/sample_5b/level_0/item_0.wav ~/Desktop` depending on which specific file, or just `scp -r -P 16090 root@ssh5.vast.ai:/opt/jukebox/sample_5b/ ~/Desktop` if you want to transfer an entire directory.
 
-So if you wanted to transfer a file from the default example in this repo's readme to your desktop it would look like this:
-`scp -P 16090 root@ssh5.vast.ai:/opt/jukebox/sample_5b/level_0/item_0.wav ~/Desktop`
-
-depending on which specific file, or just:
-`scp -r -P 16090 root@ssh5.vast.ai:/opt/jukebox/sample_5b/ ~/Desktop`
-
-if you want to transfer an entire directory.
-
-You can also go in the opposite direction if you need to send things to the instance like:
-`scp -r -P 16090 ~/Desktop/my_audio_dataset/ root@ssh5.vast.ai:/opt/jukebox/`
+You can also go in the opposite direction if you need to send things to the instance like `scp -r -P 16090 ~/Desktop/my_audio_dataset/ root@ssh5.vast.ai:/opt/jukebox/`
 
 Note that the metadata in sample.py is hard-coded so you may want to use nano to modify the metadata (`nano jukebox/sample.py`), then arrow (nano is a command line text editor) down to line 188 and change the defaults to whatever you want (see here: https://github.com/openai/jukebox/tree/master/jukebox/data/ids for the default options; v3=1b, v2=5b). Ctrl + x, y to save and exit nano.
