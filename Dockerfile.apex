@@ -49,6 +49,7 @@ RUN set -ex; \
 		xz-utils \
 		zlib1g-dev \
 		wget \
+		nano \
 		$( \
 			if apt-cache show 'default-libmysqlclient-dev' 2>/dev/null | grep -q '^Version:'; then \
 				echo 'default-libmysqlclient-dev'; \
