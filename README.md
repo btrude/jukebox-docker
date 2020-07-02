@@ -25,3 +25,6 @@ So if you wanted to transfer a file from the default example in this repo's read
 You can also go in the opposite direction if you need to send things to the instance like `scp -r -P 16090 ~/Desktop/my_audio_dataset/ root@ssh5.vast.ai:/opt/jukebox/`
 
 Note that the metadata in sample.py is hard-coded so you may want to use nano to modify the metadata (`nano jukebox/sample.py`), then arrow (nano is a command line text editor) down to line 188 and change the defaults to whatever you want (see here: https://github.com/openai/jukebox/tree/master/jukebox/data/ids for the default options; v3=1b, v2=5b). Ctrl + x, y to save and exit nano.
+
+### About
+This image is created using [software developed by openai](https://github.com/btrude/jukebox-docker/blob/master/citation.bib). I have only made this to facilitate running the software on vast.ai for my own personal use and have made this available publically so others can leverage the GPUs vast provides. Please direct any non-docker issues to https://github.com/openai/jukebox/issues.
