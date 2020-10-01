@@ -1,7 +1,7 @@
 # combine python:3.7.7-stretch/buildpack-deps:stretch
-# with nvidia/cuda:10.1-devel-ubuntu18.04 for jukebox dependencies
+# with nvidia/cuda:latest for jukebox dependencies
 
-FROM nvidia/cuda:10.1-devel-ubuntu18.04
+FROM nvidia/cuda:latest
 
 # buildpack-deps:stretch
 RUN set -ex; \
@@ -193,7 +193,7 @@ RUN apt-get update && apt-get install -y \
 RUN mkdir -p /opt/jukebox
 WORKDIR /opt/jukebox
 
-RUN pip install mpi4py==3.0.3 torch==1.4.0 torchvision==0.5.0 av==8.0.1
+RUN pip install mpi4py torch torchvision av
 
 COPY ./jukebox/requirements.txt /opt/jukebox/
 RUN pip install -r requirements.txt && rm requirements.txt
