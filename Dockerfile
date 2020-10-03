@@ -1,5 +1,5 @@
 # combine python:3.7.7-stretch/buildpack-deps:stretch
-# with nvidia/cuda:latest for jukebox dependencies
+# with nvidia/cuda:11.1-cudnn8-devel-ubuntu18.04 for jukebox training with apex
 
 FROM nvidia/cuda:11.1-cudnn8-devel-ubuntu18.04
 
@@ -199,8 +199,11 @@ COPY ./jukebox/requirements.txt /opt/jukebox/
 RUN pip install -r requirements.txt && rm requirements.txt
 
 COPY ./jukebox /opt/jukebox
-RUN rm -rf apex/
+RUN rm apex/setup.py
 RUN pip install -e .
 RUN pip install tensorboard ./tensorboardX
+
+COPY ./setup.py /opt/jukebox/apex/
+RUN pip install -v --no-cache-dir --global-option="--cpp_ext" --global-option="--cuda_ext" ./apex
 
 EXPOSE 6006

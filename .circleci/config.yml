@@ -11,17 +11,6 @@ jobs:
     steps:
       - checkout
       - setup_remote_docker
-      - run: git clone https://github.com/openai/jukebox.git
-      - run: docker build -t btrude/jukebox-docker:latest -f Dockerfile .
-      - run: |
-          echo $DOCKER_PASS | docker login -u $DOCKER_USER --password-stdin
-          docker push btrude/jukebox-docker:latest
-
-  build_apex:
-    <<: *defaults
-    steps:
-      - checkout
-      - setup_remote_docker
       - run: |
           git clone https://github.com/openai/jukebox.git
           rm -rf ./jukebox/apex/
@@ -33,17 +22,6 @@ jobs:
           docker push btrude/jukebox-docker:apex
 
   build_wip:
-    <<: *defaults
-    steps:
-      - checkout
-      - setup_remote_docker
-      - run: git clone https://github.com/openai/jukebox.git
-      - run: docker build -t btrude/jukebox-docker:$CIRCLE_SHA1 -f Dockerfile .
-      - run: |
-          echo $DOCKER_PASS | docker login -u $DOCKER_USER --password-stdin
-          docker push btrude/jukebox-docker:$CIRCLE_SHA1
-
-  build_apex_wip:
     <<: *defaults
     steps:
       - checkout
@@ -67,15 +45,7 @@ workflows:
           filters:
             branches:
               only: master
-      - build_apex:
-          filters:
-            branches:
-              only: master
       - build_wip:
-          filters:
-            branches:
-              ignore: master
-      - build_apex_wip:
           filters:
             branches:
               ignore: master
