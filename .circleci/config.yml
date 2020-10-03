@@ -24,7 +24,7 @@ jobs:
       - setup_remote_docker
       - run: |
           git clone https://github.com/openai/jukebox.git
-          rm -rf jukebox/apex/
+          rm -rf ./jukebox/apex/
           cd jukebox/
           git clone https://github.com/nvidia/apex.git
       - run: docker build -t btrude/jukebox-docker:apex -f Dockerfile.apex .
@@ -48,7 +48,11 @@ jobs:
     steps:
       - checkout
       - setup_remote_docker
-      - run: git clone https://github.com/openai/jukebox.git
+      - run: |
+          git clone https://github.com/openai/jukebox.git
+          rm -rf ./jukebox/apex/
+          cd jukebox/
+          git clone https://github.com/nvidia/apex.git
       - run: docker build -t btrude/jukebox-docker:apex-$CIRCLE_SHA1 -f Dockerfile.apex .
       - run: |
           echo $DOCKER_PASS | docker login -u $DOCKER_USER --password-stdin
@@ -64,12 +68,14 @@ workflows:
             branches:
               only: master
       - build_apex:
-          requires:
-            - build
+          filters:
+            branches:
+              only: master
       - build_wip:
           filters:
             branches:
               ignore: master
       - build_apex_wip:
-          requires:
-            - build_wip
+          filters:
+            branches:
+              ignore: master
