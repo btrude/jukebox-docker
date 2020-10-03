@@ -1,7 +1,7 @@
 # combine python:3.7.7-stretch/buildpack-deps:stretch
 # with nvidia/cuda:latest for jukebox dependencies
 
-FROM nvidia/cuda:latest
+FROM nvidia/cuda:11.1-cudnn8-devel-ubuntu18.04
 
 # buildpack-deps:stretch
 RUN set -ex; \
