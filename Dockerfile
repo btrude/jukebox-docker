@@ -194,7 +194,7 @@ RUN mkdir -p /opt/jukebox
 WORKDIR /opt/jukebox
 
 RUN pip install av
-RUN pip install torch==1.7.1+cu110 torchvision==0.8.2+cu110 -f https://download.pytorch.org/whl/torch_stable.html
+RUN pip install torch==1.8.1+cu111 torchvision==0.9.1+cu111 -f https://download.pytorch.org/whl/torch_stable.html
 
 COPY ./jukebox/requirements.txt /opt/jukebox/
 RUN pip install -r requirements.txt && rm requirements.txt
