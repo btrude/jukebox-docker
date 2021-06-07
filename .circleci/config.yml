@@ -16,7 +16,9 @@ jobs:
           rm -rf ./jukebox/apex/
           cd jukebox/
           git clone https://github.com/nvidia/apex.git
-      - run: docker build -t btrude/jukebox-docker:latest -f Dockerfile .
+      - run:
+          no_output_timeout: 60m
+          command: docker build -t btrude/jukebox-docker:latest -f Dockerfile .
       - run: |
           echo $DOCKER_PASS | docker login -u $DOCKER_USER --password-stdin
           docker push btrude/jukebox-docker:latest
@@ -31,7 +33,9 @@ jobs:
           rm -rf ./jukebox/apex/
           cd jukebox/
           git clone https://github.com/nvidia/apex.git
-      - run: docker build -t btrude/jukebox-docker:latest-$CIRCLE_SHA1 -f Dockerfile .
+      - run:
+          no_output_timeout: 60m
+          command: docker build -t btrude/jukebox-docker:latest-$CIRCLE_SHA1 -f Dockerfile .
       - run: |
           echo $DOCKER_PASS | docker login -u $DOCKER_USER --password-stdin
           docker push btrude/jukebox-docker:latest-$CIRCLE_SHA1
