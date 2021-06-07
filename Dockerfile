@@ -3,7 +3,10 @@
 
 FROM nvcr.io/nvidia/pytorch:21.05-py3
 
-RUN DEBIAN_FRONTEND=noninteractive apt-get update && apt-get install -y \
+# workaround readline fallback
+RUN echo 'debconf debconf/frontend select Noninteractive' | debconf-set-selections && apt-get install -y -q
+
+RUN apt-get update && apt-get install -y \
 	ffmpeg \
 	libopenmpi-dev \
 	openmpi-bin \
@@ -14,6 +17,7 @@ RUN DEBIAN_FRONTEND=noninteractive apt-get update && apt-get install -y \
 
 RUN mkdir -p /opt/jukebox
 WORKDIR /opt/jukebox
+
 
 RUN pip install av
 
